@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TickKey
  *
- * @ORM\Table(name="tick_key")
+ * @ORM\Table(
+ *     name="tick_key",
+ *     uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="name_idx", columns={"name"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TickKeyRepository")
  */
 class TickKey

@@ -50,6 +50,13 @@ class Tick
      */
     private $userId;
 
+    /**
+     * Tick constructor.
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get id
