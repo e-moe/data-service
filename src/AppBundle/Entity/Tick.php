@@ -29,11 +29,12 @@ class Tick
     private $val;
 
     /**
-     * @var int
+     * @var TickKey
      *
-     * @ORM\Column(name="tick_key_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="TickKey")
+     * @ORM\JoinColumn(name="tick_key_id", referencedColumnName="id", nullable=false)
      */
-    private $tickKeyId;
+    private $key;
 
     /**
      * @var \DateTime
@@ -85,27 +86,27 @@ class Tick
     }
 
     /**
-     * Set tickKeyId
+     * Set tick key
      *
-     * @param integer $tickKeyId
+     * @param TickKey $key
      *
      * @return Tick
      */
-    public function setTickKeyId($tickKeyId)
+    public function setKey(TickKey $key)
     {
-        $this->tickKeyId = $tickKeyId;
+        $this->key = $key;
 
         return $this;
     }
 
     /**
-     * Get tickKeyId
+     * Get tick key
      *
-     * @return int
+     * @return TickKey
      */
-    public function getTickKeyId()
+    public function getKey()
     {
-        return $this->tickKeyId;
+        return $this->key;
     }
 
     /**
