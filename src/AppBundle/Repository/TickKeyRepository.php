@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\TickKey;
+use Doctrine\ORM\NoResultException;
 
 /**
  * TickKeyRepository
@@ -10,4 +12,24 @@ namespace AppBundle\Repository;
  */
 class TickKeyRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $name
+     * @return TickKey
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByNameOrNew($name)
+    {
+        try {
+            $tickKey = $this->createQueryBuilder('k')
+                ->andWhere('k.name = :name')
+                ->setParameter('name', $name)
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            $tickKey = new TickKey();
+            $tickKey->setName($name);
+        }
+        return $tickKey;
+    }
 }

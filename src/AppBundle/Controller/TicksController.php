@@ -40,7 +40,7 @@ class TicksController extends Controller
             $this->get('serializer')->serialize($tick, self::DATA_FORMAT),
             Response::HTTP_OK,
             [
-                'Content-Type', 'application/json',
+                'Content-Type' => 'application/json',
             ]
         );
     }
@@ -59,7 +59,7 @@ class TicksController extends Controller
             $this->get('serializer')->serialize($ticks, self::DATA_FORMAT),
             Response::HTTP_OK,
             [
-                'Content-Type', 'application/json',
+                'Content-Type' => 'application/json',
             ]
         );
     }
@@ -79,7 +79,36 @@ class TicksController extends Controller
             ),
             Response::HTTP_OK,
             [
-                'Content-Type', 'application/json',
+                'Content-Type' => 'application/json',
+            ]
+        );
+    }
+
+    /**
+     * @Route("/{key}", name="postNewTick")
+     * @Method({"POST"})
+     * @ParamConverter("key", class="AppBundle:TickKey", options={"repository_method" = "findByNameOrNew"})
+     */
+    public function postNewAction(Request $request, TickKey $key)
+    {
+        $userId = 1;
+        $tick = new Tick();
+        $tick->setKey($key)
+            ->setUserId($userId)
+            ->setVal($request->getContent());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($tick);
+        $entityManager->flush();
+
+        return new Response(
+            $this->get('serializer')->serialize(
+                $tick,
+                self::DATA_FORMAT
+            ),
+            Response::HTTP_OK,
+            [
+                'Content-Type' => 'application/json',
             ]
         );
     }

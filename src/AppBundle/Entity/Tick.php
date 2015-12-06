@@ -31,7 +31,7 @@ class Tick
     /**
      * @var TickKey
      *
-     * @ORM\ManyToOne(targetEntity="TickKey")
+     * @ORM\ManyToOne(targetEntity="TickKey", cascade={"persist"})
      * @ORM\JoinColumn(name="tick_key_id", referencedColumnName="id", nullable=false)
      */
     private $key;
