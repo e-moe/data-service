@@ -37,7 +37,7 @@ class TicksController extends Controller
         }
 
         return new Response(
-            $this->get('serializer')->serialize($tick, self::DATA_FORMAT),
+            $this->get('jms_serializer')->serialize($tick, self::DATA_FORMAT),
             Response::HTTP_OK,
             [
                 'Content-Type' => 'application/json',
@@ -56,7 +56,7 @@ class TicksController extends Controller
         $ticks = $this->getDoctrine()->getRepository('AppBundle:Tick')->findTicks($key, $userId);
 
         return new Response(
-            $this->get('serializer')->serialize($ticks, self::DATA_FORMAT),
+            $this->get('jms_serializer')->serialize($ticks, self::DATA_FORMAT),
             Response::HTTP_OK,
             [
                 'Content-Type' => 'application/json',
@@ -73,7 +73,7 @@ class TicksController extends Controller
     {
         $userId = 1;
         return new Response(
-            $this->get('serializer')->serialize(
+            $this->get('jms_serializer')->serialize(
                 $this->getDoctrine()->getRepository('AppBundle:Tick')->findLatest($key, $userId),
                 self::DATA_FORMAT
             ),
@@ -101,15 +101,6 @@ class TicksController extends Controller
         $entityManager->persist($tick);
         $entityManager->flush();
 
-        return new Response(
-            $this->get('serializer')->serialize(
-                $tick,
-                self::DATA_FORMAT
-            ),
-            Response::HTTP_OK,
-            [
-                'Content-Type' => 'application/json',
-            ]
-        );
+        return $this->forward('AppBundle:Ticks:getOne', ['key' => $key->getName(), 'id' => $tick->getId()]);
     }
 }

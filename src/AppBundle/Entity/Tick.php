@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Tick
  *
  * @ORM\Table(name="tick")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TickRepository")
+ * @JMS\ExclusionPolicy("all")
  */
 class Tick
 {
@@ -18,6 +20,7 @@ class Tick
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Expose
      */
     private $id;
 
@@ -25,6 +28,7 @@ class Tick
      * @var string
      *
      * @ORM\Column(name="val", type="string", length=255)
+     * @JMS\Expose
      */
     private $val;
 
@@ -39,7 +43,8 @@ class Tick
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetimetz")
+     * @ORM\Column(name="date", type="datetime")
+     * @JMS\Expose
      */
     private $date;
 
