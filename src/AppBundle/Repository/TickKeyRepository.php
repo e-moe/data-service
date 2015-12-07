@@ -13,11 +13,11 @@ use Doctrine\ORM\NoResultException;
 class TickKeyRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * @param $name
+     * @param string $name
      * @return TickKey
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findByNameOrNew($name)
+    public function findByNameOrNew(string $name): TickKey
     {
         try {
             $tickKey = $this->createQueryBuilder('k')

@@ -4,8 +4,8 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Tick;
 use AppBundle\Entity\TickKey;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 /**
  * TickRepository
@@ -17,12 +17,12 @@ class TickRepository extends EntityRepository
 {
     /**
      * @param TickKey $key
-     * @param $userId
+     * @param int $userId
      * @param int $limit
      * @param int $offset
-     * @return Tick[]|ArrayCollection
+     * @return Tick[]
      */
-    public function findTicks(TickKey $key, $userId, $limit = 10, $offset = 0)
+    public function findTicks(TickKey $key, int $userId, int $limit = 10, int $offset = 0): array
     {
         return $this->getTicksQuery($key, $userId)
             ->setFirstResult($offset)
@@ -32,10 +32,10 @@ class TickRepository extends EntityRepository
 
     /**
      * @param TickKey $key
-     * @param $userId
+     * @param int $userId
      * @return Tick
      */
-    public function findLatest(TickKey $key, $userId)
+    public function findLatest(TickKey $key, int $userId): Tick
     {
         return $this->getTicksQuery($key, $userId)
             ->setMaxResults(1)
@@ -45,9 +45,9 @@ class TickRepository extends EntityRepository
     /**
      * @param TickKey $key
      * @param $userId
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
-    protected function getTicksQuery(TickKey $key, $userId)
+    protected function getTicksQuery(TickKey $key, int $userId): Query
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.key = :key')
