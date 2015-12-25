@@ -7,7 +7,7 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        our_db_provider:
+        db_provider:
             entity:
                 class: AppBundle:User
                 property: username
@@ -20,8 +20,12 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        wsse_secured:
+            pattern:   ^/api/
+            stateless: true
+            wsse:      { lifetime: 300 }
+
         main:
             pattern: ^/
             http_basic: ~
-            provider: our_db_provider
-
+            provider: db_provider
